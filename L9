@@ -2,23 +2,29 @@ import nltk
 import string
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
+
 nltk.download('punkt')
 nltk.download('stopwords')
-documents = [
+
+# Sample documents
+docs = [
     "This is the first document.",
     "This document is the second document.",
     "And this is the third one.",
-    "Is this the first document?",
+    "Is this the first document?"
 ]
-def preprocess_text(doc):
-    tokens = nltk.word_tokenize(doc)
-    tokens = [word for word in tokens if word not in string.punctuation]
-    tokens = [word.lower() for word in tokens]
-    stop_words = set(stopwords.words('english'))
-    tokens = [word for word in tokens if word not in stop_words]
-    preprocessed_doc = ' '.join(tokens)
-    return preprocessed_doc
-preprocessed_documents = [preprocess_text(doc) for doc in documents]
+
+# Preprocessing
+def preprocess(text):
+    tokens = nltk.word_tokenize(text)
+    tokens = [w.lower() for w in tokens if w not in string.punctuation]
+    tokens = [w for w in tokens if w not in set(stopwords.words('english'))]
+    return " ".join(tokens)
+
+clean_docs = [preprocess(d) for d in docs]
+
+# TF-IDF
 vectorizer = TfidfVectorizer()
-tfidf_matrix = vectorizer.fit_transform(preprocessed_documents)
+tfidf_matrix = vectorizer.fit_transform(clean_docs)
+
 print(tfidf_matrix.toarray())
