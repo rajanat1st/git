@@ -1,0 +1,18 @@
+from nltk import CFG
+from nltk.parse.chart import ChartParser
+cat_grammar = CFG.fromstring("""
+S -> NP VP
+VP -> V NP | VP PP | V NP PP | V PP
+PP -> P NP
+NP -> 'John' | 'Mary' | 'Bob' | Det N | NP PP
+Det -> 'a' | 'an' | 'the'
+N -> 'man' | 'dog' | 'cat' | 'telescope' | 'park'
+P -> 'in' | 'on' | 'by' | 'with'
+V -> 'saw' | 'ate' | 'walked'
+""")
+
+parser = ChartParser(cat_grammar)
+sentence = "John saw with a telescope"
+tokens = sentence.split()
+for tree in parser.parse(tokens):
+    tree.pretty_print()
