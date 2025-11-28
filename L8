@@ -1,0 +1,30 @@
+import nltk
+from nltk.util import ngrams
+from collections import Counter
+
+nltk.download('punkt')
+
+def extract_ngrams(text):
+    tokens = nltk.word_tokenize(text)
+
+    unigrams = list(tokens)
+    bigrams = list(ngrams(tokens, 2))
+    trigrams = list(ngrams(tokens, 3))
+
+    return unigrams, bigrams, trigrams
+
+
+# Direct call for Jupyter Notebook
+text = "Natural language processing with Python is interesting"
+
+unigrams, bigrams, trigrams = extract_ngrams(text)
+
+print("Unigrams:")
+print(unigrams)
+
+print("\nBigrams:")
+print(bigrams)
+
+print("\nTrigrams:")
+print(trigrams)
+print("\n")
