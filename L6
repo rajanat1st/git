@@ -1,0 +1,31 @@
+
+import nltk
+sentence = "I told the children I was going to tell them a story. They were excited"
+tokens = nltk.word_tokenize(sentence)
+tags = nltk.pos_tag(tokens)
+chunk_grammar = """ mychunk: {<NNS.?>*<PRP.?>*<VBD?>}"""
+parser = nltk.RegexpParser(chunk_grammar)
+tree = parser.parse(tags)
+print(tree)
+tree.draw()
+# 
+
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk import pos_tag, RegexpParser
+def chunk_sentence(sentence):
+    words = word_tokenize(sentence)
+    tagged_words = pos_tag(words)
+    grammar = r"""
+      NP: {<DT|JJ|NN.*>+}           # Noun Phrase
+      PP: {<IN><NP>}                # Prepositional Phrase
+      VP: {<VB.*><NP|PP|CLAUSE>+$}  # Verb Phrase
+      CLAUSE: {<NP><VP>}            # Clause
+    """
+    parser = RegexpParser(grammar)
+    chunked_sentence = parser.parse(tagged_words)
+    return chunked_sentence
+sentence = "The quick brown fox jumps over the lazy dog"
+chunked_sentence = chunk_sentence(sentence)
+print(chunked_sentence)           
+chunked_sentence.pretty_print()
