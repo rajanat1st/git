@@ -1,5 +1,6 @@
 import nltk
 nltk.download('punkt')
+nltk.download('punkt_tab')
 from nltk.tokenize import sent_tokenize, word_tokenize
 text = '''NLTK is a leading platform for building Python programs to work with human language data. 
         It provides easy-to-use interfaces to over 50 corpora and lexical resources such as WordNet, 
